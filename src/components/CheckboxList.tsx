@@ -6,7 +6,7 @@ interface Prefecture {
     prefName: string;
 }
 
-const PrefectureCheckboxList = ({ onSelect }: { onSelect: (selected: number[]) => void }) => {
+const CheckboxList = ({ onSelect }: { onSelect: (selected: number[]) => void }) => {
     const [prefectures, setPrefectures] = useState<Prefecture[]>([]);
     const [selectedPrefCodes, setSelectedPrefCodes] = useState<number[]>([]);
 
@@ -44,4 +44,4 @@ const PrefectureCheckboxList = ({ onSelect }: { onSelect: (selected: number[]) =
     );
 };
 
-export default PrefectureCheckboxList;
+export default CheckboxList;
