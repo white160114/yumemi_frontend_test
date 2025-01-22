@@ -16,11 +16,16 @@ const HomePage = () => {
         const results = await Promise.all(promises);
 
         const combinedData = results.flatMap((result) => {
-            if (Array.isArray(result.result)) {
-                return result.result.map((item: any) => ({
-                    year: item.year,
-                    value: item.value,
-                }));
+            if (result && result.result && Array.isArray(result.result.data)) {
+                return result.result.data.flatMap((dataItem: any) => {
+                    if (dataItem.label === "総人口" && Array.isArray(dataItem.data)) {
+                        return dataItem.data.map((item: any) => ({
+                            year: item.year,
+                            value: item.value,
+                        }));
+                    }
+                    return [];
+                });
             }
             return [];
         });
