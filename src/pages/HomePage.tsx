@@ -15,21 +15,25 @@ const HomePage = () => {
         const promises = selectedPrefCodes.map((prefCode) => fetchPopulation(prefCode));
         const results = await Promise.all(promises);
 
-        const combinedData = results.flatMap((result) =>
-            result[0].data.map((item: any) => ({
-                year: item.year,
-                value: item.value,
-            }))
-        );
+        const combinedData = results.flatMap((result) => {
+            if (Array.isArray(result.result)) {
+                return result.result.map((item: any) => ({
+                    year: item.year,
+                    value: item.value,
+                }));
+            }
+            return [];
+        });
+
+        console.log('Combined Data:', combinedData); // デバッグ用に処理後のデータをログ出力
 
         setGraphData(combinedData);
     };
 
     return (
         <div>
-            <h1>都道府県別人口推移</h1>
             <PrefectureCheckboxList onSelect={handlePrefectureSelection} />
-            {graphData.length > 0 ? <PopulationGraph data={graphData} /> : <p>グラフを表示するデータがありません。</p>}
+            <PopulationGraph data={graphData} />
         </div>
     );
 };
