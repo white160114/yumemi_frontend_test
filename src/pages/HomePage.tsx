@@ -3,8 +3,18 @@ import PrefectureCheckboxList from '../components/CheckboxList';
 import PopulationGraph from '../components/PopulationGraph';
 import { fetchPopulation } from '../api/api';
 
+interface DataPoint {
+    year: number;
+    value: number;
+}
+
+interface GraphData {
+    prefCode: number;
+    data: DataPoint[];
+}
+
 const HomePage = () => {
-    const [graphData, setGraphData] = useState<any[]>([]);
+    const [graphData, setGraphData] = useState<GraphData[]>([]);
 
     const handlePrefectureSelection = async (selectedPrefCodes: number[]) => {
         if (selectedPrefCodes.length === 0) {
@@ -12,31 +22,28 @@ const HomePage = () => {
             return;
         }
 
-        const promises = selectedPrefCodes.map((prefCode) => fetchPopulation(prefCode));
+        const promises = selectedPrefCodes.map((prefCode) => fetchPopulation(prefCode).then((result) => ({
+            prefCode,
+            data: result.result.data.flatMap((dataItem: any) => {
+                if (dataItem.label === "総人口" && Array.isArray(dataItem.data)) {
+                    return dataItem.data.map((item: any) => ({
+                        year: item.year,
+                        value: item.value,
+                    }));
+                }
+                return [];
+            }),
+        })));
+
         const results = await Promise.all(promises);
 
-        const combinedData = results.flatMap((result) => {
-            if (result && result.result && Array.isArray(result.result.data)) {
-                return result.result.data.flatMap((dataItem: any) => {
-                    if (dataItem.label === "総人口" && Array.isArray(dataItem.data)) {
-                        return dataItem.data.map((item: any) => ({
-                            year: item.year,
-                            value: item.value,
-                        }));
-                    }
-                    return [];
-                });
-            }
-            return [];
-        });
+        console.log('Combined Data:', results); // デバッグ用に処理後のデータをログ出力
 
-        console.log('Combined Data:', combinedData); // デバッグ用に処理後のデータをログ出力
-
-        setGraphData(combinedData);
+        setGraphData(results);
     };
 
     return (
-        <div>
+        <div style={{ width: '100%' }}>
             <PrefectureCheckboxList onSelect={handlePrefectureSelection} />
             <PopulationGraph data={graphData} />
         </div>
