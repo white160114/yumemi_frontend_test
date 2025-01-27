@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchPrefectures } from '../api/api';
-import '../styles/CheckboxList.css';
+import '../styles/CheckboxList.css'; // CSSファイルをインポート
 
 interface Prefecture {
     prefCode: number;
@@ -30,12 +30,12 @@ const CheckboxList = ({ onSelect }: { onSelect: (selected: number[]) => void }) 
     };
 
     return (
-        <div className='checkbox-list'>
+        <div className="checkbox-list">
             <h2>都道府県</h2>
             <p>1つ以上の都道府県を選んでください</p>
-            <div className='checkbox-items'>
+            <div className="checkbox-items">
                 {prefectures.map((pref) => (
-                    <label key={pref.prefCode} className='checkbox-item'>
+                    <label key={pref.prefCode} className="checkbox-item">
                         <input
                             type="checkbox"
                             value={pref.prefCode}

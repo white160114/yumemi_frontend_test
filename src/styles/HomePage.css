@@ -5,22 +5,25 @@
 }
 
 .homepage-header {
-    background-color: #282c34;
+    background-color: aquamarine;
     padding: 20px;
-    color: white;
+    color: black;
     text-align: center;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .homepage-content {
     display: flex;
-    flex-direction: column; /* 縦方向に並べる */
+    flex-direction: column;
     align-items: center;
     gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* 画面幅が広くなっても縦方向に並べる */
 @media (min-width: 768px) {
     .homepage-content {
-        flex-direction: column; /* 縦方向に並べる */
+        flex-direction: column;
     }
 }
