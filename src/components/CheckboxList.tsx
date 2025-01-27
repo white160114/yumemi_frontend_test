@@ -30,6 +30,8 @@ const CheckboxList = ({ onSelect }: { onSelect: (selected: number[]) => void }) 
 
     return (
         <div>
+            <h2>都道府県</h2>
+            <p>1つ以上の都道府県を選んでください</p>
             {prefectures.map((pref) => (
                 <label key={pref.prefCode}>
                     <input

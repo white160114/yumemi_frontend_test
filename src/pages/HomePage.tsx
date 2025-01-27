@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PrefectureCheckboxList from '../components/CheckboxList';
 import PopulationGraph from '../components/PopulationGraph';
 import { fetchPopulation } from '../api/api';
+import '../styles/HomePage.css';
 
 interface DataPoint {
     year: number;
@@ -45,7 +46,7 @@ const HomePage = () => {
     return (
         <div className='homepage'>
             <header className='homepage-header'>
-                <h1>人口推移グラフ</h1>
+                <h1>ゆめみフロントエンドコーディング試験</h1>
             </header>
             <div className='homepage-content'>
                 <PrefectureCheckboxList onSelect={handlePrefectureSelection} />
