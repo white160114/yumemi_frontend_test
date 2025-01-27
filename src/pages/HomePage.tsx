@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PrefectureCheckboxList from '../components/CheckboxList';
 import PopulationGraph from '../components/PopulationGraph';
-import { fetchPopulation } from '../api/api';
+import { fetchPopulation, fetchPrefectures } from '../api/api';
+import '../styles/HomePage.css'; // CSSファイルをインポート
 
 interface DataPoint {
     year: number;
@@ -13,8 +14,22 @@ interface GraphData {
     data: DataPoint[];
 }
 
+interface Prefecture {
+    prefCode: number;
+    prefName: string;
+}
+
 const HomePage = () => {
     const [graphData, setGraphData] = useState<GraphData[]>([]);
+    const [prefectures, setPrefectures] = useState<Prefecture[]>([]);
+
+    useEffect(() => {
+        const getPrefectures = async () => {
+            const data = await fetchPrefectures();
+            setPrefectures(data);
+        };
+        getPrefectures();
+    }, []);
 
     const handlePrefectureSelection = async (selectedPrefCodes: number[]) => {
         if (selectedPrefCodes.length === 0) {
@@ -43,9 +58,14 @@ const HomePage = () => {
     };
 
     return (
-        <div style={{ width: '100%' }}>
-            <PrefectureCheckboxList onSelect={handlePrefectureSelection} />
-            <PopulationGraph data={graphData} />
+        <div className="homepage">
+            <header className="homepage-header">
+                <h1>人口推移グラフ</h1>
+            </header>
+            <div className="homepage-content">
+                <PrefectureCheckboxList onSelect={handlePrefectureSelection} />
+                <PopulationGraph data={graphData} prefectures={prefectures} />
+            </div>
         </div>
     );
 };

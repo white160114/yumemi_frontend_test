@@ -11,8 +11,16 @@ interface GraphData {
     data: DataPoint[];
 }
 
-const PopulationGraph = ({ data }: { data: GraphData[] }) => {
+interface Prefecture {
+    prefCode: number;
+    prefName: string;
+}
+
+const PopulationGraph = ({ data, prefectures }: { data: GraphData[], prefectures: Prefecture[] }) => {
     console.log('Graph Data:', data); // デバッグ用にデータをログ出力
+
+    // 都道府県コードと都道府県名のマッピングを作成
+    const prefectureMap = new Map(prefectures.map(pref => [pref.prefCode, pref.prefName]));
 
     // 全てのデータポイントを統一されたX軸にマッピング
     const allYears = Array.from(new Set(data.flatMap(prefData => prefData.data.map(point => point.year)))).sort();
@@ -33,7 +41,14 @@ const PopulationGraph = ({ data }: { data: GraphData[] }) => {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="year" />
                     <YAxis />
-                    <Tooltip />
+                    <Tooltip formatter={(value, name) => {
+                        if (typeof name === 'string') {
+                            const prefCode = parseInt(name.split('_')[1], 10);
+                            const prefName = prefectureMap.get(prefCode) || `Prefecture ${prefCode}`;
+                            return [`${value}`, `${prefName}`];
+                        }
+                        return [`${value}`, `${name}`];
+                    }} />
                     {data.map((prefData) => (
                         <Line
                             key={prefData.prefCode}

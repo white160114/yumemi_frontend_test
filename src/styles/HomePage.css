@@ -1,0 +1,26 @@
+.homepage {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.homepage-header {
+    background-color: #282c34;
+    padding: 20px;
+    color: white;
+    text-align: center;
+}
+
+.homepage-content {
+    display: flex;
+    flex-direction: column; /* 縦方向に並べる */
+    align-items: center;
+    gap: 20px;
+}
+
+/* 画面幅が広くなっても縦方向に並べる */
+@media (min-width: 768px) {
+    .homepage-content {
+        flex-direction: column; /* 縦方向に並べる */
+    }
+}
