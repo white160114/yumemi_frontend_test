@@ -43,9 +43,14 @@ const HomePage = () => {
     };
 
     return (
-        <div style={{ width: '100%' }}>
-            <PrefectureCheckboxList onSelect={handlePrefectureSelection} />
-            <PopulationGraph data={graphData} />
+        <div className='homepage'>
+            <header className='homepage-header'>
+                <h1>人口推移グラフ</h1>
+            </header>
+            <div className='homepage-content'>
+                <PrefectureCheckboxList onSelect={handlePrefectureSelection} />
+                <PopulationGraph data={graphData} />
+            </div>
         </div>
     );
 };
