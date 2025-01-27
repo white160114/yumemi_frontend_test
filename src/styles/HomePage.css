@@ -2,6 +2,9 @@
     width: 100%;
     padding: 20px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 中央揃え */
 }
 
 .homepage-header {
@@ -16,7 +19,7 @@
 .homepage-content {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; /* 中央揃え */
     gap: 20px;
     width: 100%;
     box-sizing: border-box;

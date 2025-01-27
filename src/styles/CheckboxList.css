@@ -1,15 +1,18 @@
-.checkbox-list{
+.checkbox-list {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1450px;
     margin: 0 auto;
     text-align: center;
     box-sizing: border-box;
 }
 
+h2, p{
+    text-align: left;
+}
 
-.checkbox-items{
+.checkbox-items {
     display: grid;
-    grid-template-columns: repeat(17, 1fr);
+    grid-template-columns: repeat(17, 1fr); /* 各列の幅を自動調整 */
     gap: 10px;
     justify-content: center;
 }
@@ -20,7 +23,7 @@
     justify-content: center;
     gap: 5px;
     box-sizing: border-box;
-    width: 100%; /* 幅を100%に設定 */
-    max-width: 100px; /* 最大幅を設定 */
+    width: 100%; /* 幅を自動調整 */
+    max-width: 100px; /* 最大幅を解除 */
     white-space: nowrap; /* テキストを折り返さない */
 }
