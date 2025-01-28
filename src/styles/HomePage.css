@@ -27,6 +27,16 @@
 
 @media (min-width: 768px) {
     .homepage-content {
-        flex-direction: column;
+        flex-direction: column; /* 横並びに変更 */
+        justify-content: space-between; /* 要素間のスペースを均等に */
+    }
+}
+
+@media (max-width: 768px) {
+    .homepage-header {
+        padding: 10px; /* 小さい画面ではパディングを調整 */
+            h1{
+                font-size: 2em;
+            }
     }
 }
