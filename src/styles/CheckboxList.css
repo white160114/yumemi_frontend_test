@@ -27,3 +27,9 @@ h2, p{
     max-width: 100px; /* 最大幅を解除 */
     white-space: nowrap; /* テキストを折り返さない */
 }
+
+@media (max-width: 768px){
+    .checkbox-items{
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
