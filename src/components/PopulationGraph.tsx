@@ -1,5 +1,6 @@
 import React from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import "../styles/PoplationGraph.css";
 
 interface DataPoint {
     year: number;
@@ -35,8 +36,8 @@ const PopulationGraph = ({ data, prefectures }: { data: GraphData[], prefectures
     });
 
     return (
-        <div style={{ width: '100%', height: 400 }}>
-            <ResponsiveContainer>
+        <div className="population-graph">
+            <ResponsiveContainer width="100%" height={400}>
                 <LineChart data={unifiedData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="year" />
