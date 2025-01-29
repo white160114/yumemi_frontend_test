@@ -35,13 +35,18 @@ const PopulationGraph = ({ data, prefectures }: { data: GraphData[], prefectures
         return yearData;
     });
 
+    // Y軸の値を「k」単位で表示するフォーマッタ
+    const yAxisTickFormatter = (value: number) => {
+        return `${(value / 1000).toFixed(1)}k`;
+    };
+
     return (
         <div className="population-graph">
             <ResponsiveContainer width="100%" height={400}>
                 <LineChart data={unifiedData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="year" />
-                    <YAxis />
+                    <YAxis tickFormatter={yAxisTickFormatter} />
                     <Tooltip formatter={(value, name) => {
                         if (typeof name === 'string') {
                             const prefCode = parseInt(name.split('_')[1], 10);
