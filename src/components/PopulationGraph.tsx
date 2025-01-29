@@ -1,5 +1,5 @@
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import "../styles/PoplationGraph.css";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, TooltipProps } from 'recharts';
+import "../styles/PopulationGraph.css";
 
 interface DataPoint {
     year: number;
@@ -34,30 +34,52 @@ const PopulationGraph = ({ data, prefectures }: { data: GraphData[], prefectures
         return yearData;
     });
 
-    /// Y軸の値を「m」単位で表示するフォーマッタ
+    // Y軸の値を「m」単位で表示するフォーマッタ
     const yAxisTickFormatter = (value: number) => {
         return `${(value / 1000000).toFixed(1)}m`;
     };
 
     // カスタムツールチップコンポーネント
+    const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
+        if (active && payload && payload.length) {
+            console.log('Tooltip active:', active);
+            console.log('Tooltip payload:', payload);
+            console.log('Tooltip label:', label);
+
+            const data = payload[0].payload;
+            const name = payload[0].name;
+            if (typeof name === 'string') {
+                const nameParts = name.split(' ');
+                if (nameParts.length > 1) {
+                    const prefCode = parseInt(nameParts[1], 10);
+                    const prefName = prefectureMap.get(prefCode) || `Prefecture ${prefCode}`;
+                    return (
+                        <div className="custom-tooltip">
+                            <p className="label">{`Year: ${label}`}</p>
+                            <p className="intro">{`${prefName}: ${data[`value_${prefCode}`]}`}</p>
+                        </div>
+                    );
+                } else {
+                    console.error('Unexpected name format:', name);
+                }
+            } else {
+                console.error('Name is not a string:', name);
+            }
+        } else {
+            console.error('Payload is not as expected:', payload);
+        }
+
+        return null;
+    };
 
     return (
         <div className="population-graph">
             <ResponsiveContainer width="100%" height={400}>
                 <LineChart data={unifiedData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="year" />
-                    <YAxis tickFormatter={yAxisTickFormatter} />
-                    <Tooltip formatter={(value, name) => {
-                        if (typeof name === 'string') {
-                            const prefCode = parseInt(name.split('_')[1], 10);
-                            const prefName = prefectureMap.get(prefCode) || `Prefecture ${prefCode}`;
-                            return [`${value}`, `${prefName}`];
-                        }
-                        return [`${value}`, `${name}`];
-                    }}
-                        labelFormatter={(label) => `Year: ${label}`}
-                    />
+                    <XAxis dataKey="year" label={{ value: '年度', position: 'insideBottomRight', offset: -5 }} />
+                    <YAxis tickFormatter={yAxisTickFormatter} label={{ value: '人口数', angle: -90, position: 'insideLeft' }} />
+                    <Tooltip content={<CustomTooltip />} />
                     {data.map((prefData) => (
                         <Line
                             key={prefData.prefCode}
