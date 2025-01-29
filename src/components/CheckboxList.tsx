@@ -20,11 +20,11 @@ const CheckboxList = ({ onSelect }: { onSelect: (selected: number[]) => void }) 
     }, []);
 
     const handleCheckboxChange = (prefCode: number) => {
-        setSelectedPrefCodes((prev) => {
-            const newSelected = prev.includes(prefCode)
-                ? prev.filter((code) => code !== prefCode)
-                : [...prev, prefCode];
-            onSelect(newSelected); // 親に選択結果を渡す
+        setSelectedPrefCodes((prevSelected) => {
+            const newSelected = prevSelected.includes(prefCode)
+                ? prevSelected.filter((code) => code !== prefCode)
+                : [...prevSelected, prefCode];
+            onSelect(newSelected);
             return newSelected;
         });
     };
@@ -40,6 +40,7 @@ const CheckboxList = ({ onSelect }: { onSelect: (selected: number[]) => void }) 
                             type="checkbox"
                             value={pref.prefCode}
                             onChange={() => handleCheckboxChange(pref.prefCode)}
+                            checked={selectedPrefCodes.includes(pref.prefCode)}
                         />
                         {pref.prefName}
                     </label>
