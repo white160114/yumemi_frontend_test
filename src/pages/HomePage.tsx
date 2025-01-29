@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PrefectureCheckboxList from '../components/CheckboxList';
 import PopulationGraph from '../components/PopulationGraph';
 import { fetchPopulation, fetchPrefectures } from '../api/api';

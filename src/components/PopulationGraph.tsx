@@ -1,4 +1,3 @@
-import React from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import "../styles/PoplationGraph.css";
 
@@ -35,10 +34,12 @@ const PopulationGraph = ({ data, prefectures }: { data: GraphData[], prefectures
         return yearData;
     });
 
-    // Y軸の値を「k」単位で表示するフォーマッタ
+    /// Y軸の値を「m」単位で表示するフォーマッタ
     const yAxisTickFormatter = (value: number) => {
-        return `${(value / 1000).toFixed(1)}k`;
+        return `${(value / 1000000).toFixed(1)}m`;
     };
+
+    // カスタムツールチップコンポーネント
 
     return (
         <div className="population-graph">
@@ -54,7 +55,9 @@ const PopulationGraph = ({ data, prefectures }: { data: GraphData[], prefectures
                             return [`${value}`, `${prefName}`];
                         }
                         return [`${value}`, `${name}`];
-                    }} />
+                    }}
+                        labelFormatter={(label) => `Year: ${label}`}
+                    />
                     {data.map((prefData) => (
                         <Line
                             key={prefData.prefCode}
